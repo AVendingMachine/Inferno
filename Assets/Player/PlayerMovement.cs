@@ -17,6 +17,7 @@ public class PlayerMovement : MonoBehaviour
     public float gravity = -29.81f;
     private bool wallRunning = false;
     private bool jumpRun = false;
+    public bool movingAllowed = true;
 
 
     private void Start()
@@ -25,14 +26,18 @@ public class PlayerMovement : MonoBehaviour
     }
     void Update()
     {
+        
         //Walking Code
         float xAxis = Input.GetAxis("Horizontal");
         float zAxis = Input.GetAxis("Vertical");
 
         direction = transform.right * xAxis + transform.forward * zAxis;
 
-
-        controller.Move(direction * Time.deltaTime * currentSpeed);
+        if (movingAllowed)
+        {
+            controller.Move(direction * Time.deltaTime * currentSpeed);
+        }
+   
         //Ground Check
         if (wallRunning == false)
         {
@@ -43,10 +48,10 @@ public class PlayerMovement : MonoBehaviour
             jumpRun = false;
         }
         //Jumping Code
-        if (isGrounded && velocity.y < 0)
+        if (isGrounded && velocity.y < 0 )
 
         {
-            velocity.y = -1;
+            velocity.y = -10;
         }
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
