@@ -68,7 +68,6 @@ public class PlayerMovement : MonoBehaviour
             {
                 wallRunning = true;
                 isGrounded = true;
-                Debug.Log("hit wall");
             }
             
 
