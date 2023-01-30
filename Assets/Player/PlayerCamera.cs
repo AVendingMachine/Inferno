@@ -18,7 +18,7 @@ public class PlayerCamera : MonoBehaviour
         float mouseX = Input.GetAxis("Mouse X");
         float mouseY = Input.GetAxis("Mouse Y");
 
-        playerBody.transform.Rotate(0, sensitivity * mouseX, 0);
+       playerBody.transform.Rotate(0, sensitivity * mouseX, 0);
 
         transform.Rotate(sensitivity * -mouseY, 0, 0);
 

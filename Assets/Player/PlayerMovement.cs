@@ -18,6 +18,7 @@ public class PlayerMovement : MonoBehaviour
     private bool wallRunning = false;
     private bool jumpRun = false;
     public bool movingAllowed = true;
+    public bool aimingDown = false;
 
 
     private void Start()
@@ -26,7 +27,15 @@ public class PlayerMovement : MonoBehaviour
     }
     void Update()
     {
-        
+        if (aimingDown)
+        {
+            currentSpeed = 0.5f * moveSpeed;
+        }
+        if (!aimingDown)
+        {
+            currentSpeed =
+                moveSpeed;
+        }
         //Walking Code
         float xAxis = Input.GetAxis("Horizontal");
         float zAxis = Input.GetAxis("Vertical");

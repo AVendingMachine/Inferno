@@ -4,11 +4,17 @@ using UnityEngine;
 
 public class GunWallAvoid : MonoBehaviour
 {
-    bool colliding = false;
-    public Transform hand;
-    public float viewModelTime;
     public GameObject rifleTip;
+    public Transform hand;
+
     public float avoidingSpeed = 4;
+
+    private float viewModelTime;
+    private bool colliding = false;
+    
+    
+    ///This section handles the view model bump effect, and was from a previous script 
+    
     private void OnTriggerEnter(Collider other)
     {
         if (other.transform.tag == "Ground")
