@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    public bool isMoving = false;
     private Vector3 direction;
     public CharacterController controller;
     public float moveSpeed = 10f;
@@ -14,32 +15,138 @@ public class PlayerMovement : MonoBehaviour
     public LayerMask groundMask;
     bool isGrounded;
     public Vector3 velocity;
+    public float maxSlideSpeed = 10f;
     public float gravity = -29.81f;
     private bool wallRunning = false;
     private bool jumpRun = false;
     public bool movingAllowed = true;
     public bool aimingDown = false;
+    private bool sliding = false;
+    private bool falling = false;
+    private bool isCheckingFall = false;
+    private bool isCheckingMove = false;
+    private bool slidingMode = true;
+    private bool crouchMode = false;
+    private bool moving = false;
+    private float fallingAmount = 0f;
+    public GameObject mainCamera;
+    float xAxis = 0;
+    float zAxis = 0;
 
 
+    IEnumerator FallingCheck()
+    {
+        isCheckingFall = true;
+        Vector3 checkPos = transform.position;
+        yield return new WaitForSeconds(0.1f);
+        if (checkPos.y > transform.position.y)
+        {
+            falling = true;
+        }
+        else
+        {
+            falling = false;
+        }
+        isCheckingFall = false;
+        fallingAmount = checkPos.y - transform.position.y;
+    }
+    IEnumerator MovementCheck()
+    {
+        isCheckingMove = true;
+        Vector3 checkPos = transform.position;
+        yield return new WaitForSeconds(0.1f);
+        if (checkPos != transform.position)
+        {
+            moving = true;
+        }
+        else
+        {
+            moving = false;
+        }
+        isCheckingMove = false;
+    }
     private void Start()
     {
         currentSpeed = moveSpeed;
     }
     void Update()
     {
-        if (aimingDown)
+        if (!isCheckingMove)
+        {
+            StartCoroutine(MovementCheck());
+        }
+        if (Input.GetKeyDown(KeyCode.LeftControl))
+        {
+            slidingMode = true;
+            mainCamera.transform.localPosition -= new Vector3(0, 0.5f, 0);
+        }
+        if (Input.GetKeyUp(KeyCode.LeftControl))
+        {
+            mainCamera.transform.localPosition += new Vector3(0, 0.5f, 0);
+            fallingAmount = 0f;
+        }
+
+        if (Input.GetKey(KeyCode.LeftControl))
+        {
+            if (crouchMode)
+            {
+                currentSpeed = 0.5f * moveSpeed;
+            }
+            if (slidingMode)
+            {
+                if (isCheckingFall == false)
+                {
+                    StartCoroutine(FallingCheck());
+                }
+
+                if (!falling)
+                {
+                    currentSpeed = Mathf.Clamp(currentSpeed - Time.deltaTime * 10, 0, moveSpeed);
+                }
+                if (falling)
+                {
+                    currentSpeed = Mathf.Clamp(currentSpeed + Time.deltaTime * (fallingAmount * 2 + 1), 0, moveSpeed * maxSlideSpeed);
+                }
+                sliding = true;
+            }
+            if (!moving)
+            {
+                sliding = false;
+                slidingMode = false;
+                crouchMode = true;
+            }
+            
+        }
+        else
+        {
+            crouchMode = false;
+            sliding = false;
+        }
+        if (aimingDown && !sliding && !crouchMode)
         {
             currentSpeed = 0.5f * moveSpeed;
         }
-        if (!aimingDown)
+        if (!aimingDown && !sliding && !crouchMode)
         {
             currentSpeed =
                 moveSpeed;
         }
         //Walking Code
-        float xAxis = Input.GetAxis("Horizontal");
-        float zAxis = Input.GetAxis("Vertical");
 
+       
+        if (!sliding)
+        {
+            xAxis = Input.GetAxis("Horizontal");
+            zAxis = Input.GetAxis("Vertical");
+        }
+        if (direction != Vector3.zero)
+        {
+            isMoving = true;
+        }
+        else
+        {
+            isMoving = false;
+        }
         direction = transform.right * xAxis + transform.forward * zAxis;
 
         if (movingAllowed)
