@@ -77,11 +77,15 @@ public class PlayerMovement : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.LeftControl))
         {
+            GetComponent<CapsuleCollider>().height = 1;
+            GetComponent<CharacterController>().height = 1;
             slidingMode = true;
             mainCamera.transform.localPosition -= new Vector3(0, 0.5f, 0);
         }
         if (Input.GetKeyUp(KeyCode.LeftControl))
         {
+            GetComponent<CapsuleCollider>().height = 2;
+            GetComponent<CharacterController>().height = 2;
             mainCamera.transform.localPosition += new Vector3(0, 0.5f, 0);
             fallingAmount = 0f;
         }
