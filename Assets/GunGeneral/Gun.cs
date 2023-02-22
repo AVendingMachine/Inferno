@@ -61,7 +61,11 @@ public class Gun : MonoBehaviour
             
         }
         //Viewbob
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+       // if (Input.GetKeyDown(KeyCode.Mouse0))
+       // {
+        //    transform.localPosition = startingPos;
+       // }
+       if (playerBody.GetComponent<PlayerMovement>().isMoving == false)
         {
             transform.localPosition = startingPos;
         }
