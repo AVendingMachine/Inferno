@@ -15,6 +15,10 @@ public class Grenade : MonoBehaviour
     private bool viewBobDirection = true;
     public GameObject playerBody;
     // Start is called before the first frame update
+    private void OnEnable()
+    {
+        onCoolDown = false;
+    }
     void Start()
     {
         startingPos = transform.localPosition;

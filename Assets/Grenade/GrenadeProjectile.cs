@@ -18,7 +18,7 @@ public class GrenadeProjectile : MonoBehaviour
 
     private void Update()
     {
-        transform.Rotate(-1, 0, 0);
+        transform.Rotate(-0.4f, 0, 0);
         if (exploded && ps.isPlaying == false)
         {
             Destroy(gameObject);
