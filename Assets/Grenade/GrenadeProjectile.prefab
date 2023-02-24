@@ -118,6 +118,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   throwForce: 48
   ps: {fileID: 3101329003424273921}
+  parent: {fileID: 5488841299034252796}
 --- !u!136 &6589063791385154419
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -140,7 +141,7 @@ TrailRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4099092045717336589}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1

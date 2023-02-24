@@ -24,6 +24,7 @@ public class Gun : MonoBehaviour
     public GameObject muzzleFlash;
     public GameObject magazine;
     public Transform adsPos;
+    public Transform magPos;
     public LayerMask bulletMask;
     //Private Variables
     private float currentSpread;
@@ -41,11 +42,21 @@ public class Gun : MonoBehaviour
     private Quaternion startingRot;
     private Quaternion recoilAngle;
 
+    private void Awake()
+    {
+        currentammo = maxAmmo;
+    }
+    private void OnEnable()
+    {
+        if (currentammo <= 0)
+        {
+            StartCoroutine(Reload());
+        }
 
+    }
     public void Start()
     {
         currentSpread = spread;
-        currentammo = maxAmmo;
         startingPos = transform.localPosition;
         startingRot = transform.localRotation;
     }
@@ -61,14 +72,6 @@ public class Gun : MonoBehaviour
             
         }
         //Viewbob
-       // if (Input.GetKeyDown(KeyCode.Mouse0))
-       // {
-        //    transform.localPosition = startingPos;
-       // }
-       if (playerBody.GetComponent<PlayerMovement>().isMoving == false)
-        {
-            transform.localPosition = startingPos;
-        }
         if (!Input.GetKey(KeyCode.Mouse0) && !Input.GetKey(KeyCode.Mouse1) && colliding == false && playerBody.GetComponent<PlayerMovement>().isMoving == true)
         {
             if (viewBobDirection == true)
@@ -89,7 +92,6 @@ public class Gun : MonoBehaviour
             {
                 viewBobDirection = true;
             }
-            Debug.Log(viewBobTime);
            
         }
         else
@@ -172,14 +174,14 @@ public class Gun : MonoBehaviour
     IEnumerator Reload()
     {
         reloading = true;
-        Vector3 magStartPos = magazine.transform.localPosition;
-        Quaternion magStartRot = magazine.transform.localRotation;
+        //Vector3 magStartPos = magazine.transform.localPosition;
+        //Quaternion magStartRot = magazine.transform.localRotation;
         magazine.GetComponent<Rigidbody>().isKinematic = false;
         yield return new WaitForSeconds(reloadTime);
         magazine.GetComponent<Rigidbody>().isKinematic = true;
         currentammo = maxAmmo;
-        magazine.transform.localPosition = magStartPos;
-        magazine.transform.localRotation = magStartRot;
+        magazine.transform.localPosition = magPos.localPosition;
+        magazine.transform.localRotation = magPos.localRotation;
         reloading = false;
     }
     IEnumerator Recoil(float timer)

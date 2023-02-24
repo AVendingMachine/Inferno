@@ -8,9 +8,11 @@ public class GrenadeProjectile : MonoBehaviour
     float climbSpeed;
     public ParticleSystem ps;
     bool exploded = false;
+    public GameObject parent;
 
     void Start()
     {
+        StartCoroutine(DeathTimer());
         climbSpeed = throwForce;
         GetComponent<Rigidbody>().AddForce(transform.forward * climbSpeed * 0.2f, ForceMode.Impulse);
         GetComponent<Rigidbody>().AddForce(-transform.up * climbSpeed, ForceMode.Impulse);
@@ -21,7 +23,7 @@ public class GrenadeProjectile : MonoBehaviour
         transform.Rotate(-0.4f, 0, 0);
         if (exploded && ps.isPlaying == false)
         {
-            Destroy(gameObject);
+            Destroy(parent);
         }
     }
     private void OnCollisionEnter(Collision collision)
@@ -35,5 +37,10 @@ public class GrenadeProjectile : MonoBehaviour
         ps.Play();
         exploded = true;
 
+    }
+    IEnumerator DeathTimer()
+    {
+        yield return new WaitForSeconds(10f);
+        Destroy(parent);
     }
 }

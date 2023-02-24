@@ -17,7 +17,11 @@ public class Grenade : MonoBehaviour
     // Start is called before the first frame update
     private void OnEnable()
     {
-        onCoolDown = false;
+        if (onCoolDown)
+        {
+            StartCoroutine(CoolDownTimer());
+        }
+        
     }
     void Start()
     {
