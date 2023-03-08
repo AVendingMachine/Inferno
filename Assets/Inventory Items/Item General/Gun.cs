@@ -10,7 +10,6 @@ public class Gun : MonoBehaviour
     public float gunShake = 1f;
     public float recoil = 100f;
     public float adsStabilityMod = 0.3f;
-    public float avoidingSpeed = 5;
     public float adsFovModifier = 45;
     public float reloadTime = 2f;
     public float recoilMod = 0.5f;
@@ -20,7 +19,6 @@ public class Gun : MonoBehaviour
     public GameObject bulletMarker;
     public GameObject mainCam;
     public GameObject playerBody;
-    public GameObject rifleTip;
     public GameObject muzzleFlash;
     public GameObject magazine;
     public Transform adsPos;
@@ -30,12 +28,8 @@ public class Gun : MonoBehaviour
     private float currentSpread;
     private float coolDown = 0f;
     private int currentammo;
-    private float viewModelTime;
     private float adsTime = 0;
-    private float viewBobTime = 0f;
-    private bool viewBobDirection = true;
     private bool recoilEnabled = false;
-    private bool colliding = false;
     private bool reloading = false;
     private Vector3 deviation;
     private Vector3 startingPos;
@@ -54,6 +48,8 @@ public class Gun : MonoBehaviour
         }
 
     }
+
+    
     public void Start()
     {
         currentSpread = spread;
@@ -71,34 +67,7 @@ public class Gun : MonoBehaviour
             }
             
         }
-        //Viewbob
-        if (!Input.GetKey(KeyCode.Mouse0) && !Input.GetKey(KeyCode.Mouse1) && colliding == false && playerBody.GetComponent<PlayerMovement>().isMoving == true)
-        {
-            if (viewBobDirection == true)
-            {
-                transform.localPosition += Vector3.up*Time.deltaTime*0.1f;
-                viewBobTime = Mathf.Clamp(viewBobTime+Time.deltaTime*5,0,1);
-            }
-            if (viewBobDirection == false)
-            {
-                transform.localPosition -= Vector3.up*Time.deltaTime*0.1f;
-                viewBobTime = Mathf.Clamp(viewBobTime - Time.deltaTime*5, 0, 1);
-            }
-            if (viewBobTime >=1)
-            {
-                viewBobDirection = false;
-            }
-            if (viewBobTime <= 0)
-            {
-                viewBobDirection = true;
-            }
-           
-        }
-        else
-        {
-            viewBobDirection = true;
-            viewBobTime = 0;
-        }
+      
         //ADS handler
         if (Input.GetKeyDown(KeyCode.Mouse1))
         {
@@ -174,8 +143,6 @@ public class Gun : MonoBehaviour
     IEnumerator Reload()
     {
         reloading = true;
-        //Vector3 magStartPos = magazine.transform.localPosition;
-        //Quaternion magStartRot = magazine.transform.localRotation;
         magazine.GetComponent<Rigidbody>().isKinematic = false;
         yield return new WaitForSeconds(reloadTime);
         magazine.GetComponent<Rigidbody>().isKinematic = true;
@@ -195,37 +162,5 @@ public class Gun : MonoBehaviour
         muzzleFlash.SetActive(true);
         yield return new WaitForSeconds(0.04f);
         muzzleFlash.SetActive(false);
-    }
-    ///This section handles the view model bump effect, and was from a previous script 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.transform.tag == "Ground")
-        {
-            colliding = true;
-        }
-    }
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.transform.tag == "Ground")
-        {
-            colliding = false;
-        }
-    }
-    private void FixedUpdate()
-    {
-        if (colliding)
-        {
-            transform.localPosition -= new Vector3(0, 0, avoidingSpeed * Time.deltaTime);
-            Debug.Log("Hello everybody my name is Markiplier");
-            viewModelTime = 0;
-        }
-        if (!colliding && rifleTip.GetComponent<GunTipCollider>().colliding == false)
-        {
-            viewModelTime = Mathf.Clamp(viewModelTime + Time.deltaTime, 0, 1);
-            if (adsTime == 0 && transform.localPosition.z != startingPos.z)
-            {
-               transform.localPosition = Vector3.Lerp(transform.localPosition, startingPos, viewModelTime);
-            }
-        }
     }
 }
