@@ -9,9 +9,12 @@ public class GrenadeProjectile : MonoBehaviour
     public ParticleSystem ps;
     bool exploded = false;
     public GameObject parent;
+    public GameObject light2;
+    bool fadeLight = false;
 
     void Start()
     {
+        light2.SetActive(false);
         StartCoroutine(DeathTimer());
         climbSpeed = throwForce;
         GetComponent<Rigidbody>().AddForce(transform.forward * climbSpeed * 0.2f, ForceMode.Impulse);
@@ -25,7 +28,12 @@ public class GrenadeProjectile : MonoBehaviour
         {
             Destroy(parent);
         }
+        if (fadeLight)
+        {
+            light2.GetComponent<Light>().intensity -= 7 * Time.deltaTime;
+        }
     }
+
     private void OnCollisionEnter(Collision collision)
     {
         Explode();
@@ -36,6 +44,8 @@ public class GrenadeProjectile : MonoBehaviour
         GetComponent<MeshRenderer>().enabled = false;
         ps.Play();
         exploded = true;
+        fadeLight = true;
+        light2.SetActive(true);
 
     }
     IEnumerator DeathTimer()
