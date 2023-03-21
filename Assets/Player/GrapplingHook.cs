@@ -58,7 +58,6 @@ public class GrapplingHook : MonoBehaviour
             sphook.position = Vector3.Lerp(transform.position, hook.position, 600*grappleTime);
             player.position = Vector3.Lerp(player.position, hook.position, grappleTime);
             grappleTime = Mathf.Clamp(grappleTime + 0.5f * (Time.deltaTime / Vector3.Distance(player.position, hook.position)), 0, 1);
-            Debug.Log("joe biden fornite card");
             player.GetComponent<PlayerMovement>().velocity.y = 0;
             player.GetComponent<PlayerMovement>().enabled = false;
             lineRenderer.enabled = true;

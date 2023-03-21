@@ -17,10 +17,11 @@ public class FlameThrower : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.Mouse0))
         {
+            Debug.Log("flame on");
             flames.Play();
             playerBody.GetComponent<PlayerMovement>().aimingDown = true;
         }
-        else
+        if (Input.GetKeyUp(KeyCode.Mouse0))
         {
             flames.Stop();
             playerBody.GetComponent<PlayerMovement>().aimingDown = false;
