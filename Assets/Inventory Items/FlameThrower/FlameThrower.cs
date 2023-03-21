@@ -5,6 +5,8 @@ using UnityEngine;
 public class FlameThrower : MonoBehaviour
 {
     public ParticleSystem flames;
+    public GameObject playerBody;
+    public GameObject mainCam;
     private void OnEnable()
     {
         flames.Stop();
@@ -16,10 +18,12 @@ public class FlameThrower : MonoBehaviour
         if (Input.GetKey(KeyCode.Mouse0))
         {
             flames.Play();
+            playerBody.GetComponent<PlayerMovement>().aimingDown = true;
         }
         else
         {
             flames.Stop();
+            playerBody.GetComponent<PlayerMovement>().aimingDown = false;
         }
     }
 }
