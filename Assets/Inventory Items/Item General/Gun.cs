@@ -13,6 +13,7 @@ public class Gun : MonoBehaviour
     public float adsFovModifier = 45;
     public float reloadTime = 2f;
     public float recoilMod = 0.5f;
+    public float damage = 1;
     public int maxAmmo = 20;
     public int bulletsAShot = 1;
     //Public Object References
@@ -133,7 +134,11 @@ public class Gun : MonoBehaviour
             deviation = new Vector3(Random.Range(-currentSpread, currentSpread), Random.Range(-currentSpread, currentSpread), Random.Range(-currentSpread, currentSpread));
             if (Physics.Raycast(mainCam.transform.position, mainCam.transform.forward + deviation, out hit, Mathf.Infinity, bulletMask))
             {
-                Instantiate(bulletMarker, hit.point, Quaternion.identity);
+                if (hit.transform.CompareTag("Enemy"))
+                {
+                    hit.transform.GetComponent<EnemyHealth>().TakeDamage(damage);
+                    Debug.Log("hit enemy :]");
+                }
             }
         }
  

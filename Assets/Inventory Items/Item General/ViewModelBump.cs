@@ -35,7 +35,7 @@ public class ViewModelBump : MonoBehaviour
         if (colliding)
         {
             transform.localPosition -= new Vector3(0, 0, avoidingSpeed * Time.deltaTime);
-            Debug.Log("Hello everybody my name is Markiplier");
+           // Debug.Log("Hello everybody my name is Markiplier");
             viewModelTime = 0;
         }
         if (!colliding && objectTip.GetComponent<GunTipCollider>().colliding == false)

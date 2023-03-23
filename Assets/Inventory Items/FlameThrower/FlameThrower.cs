@@ -17,7 +17,6 @@ public class FlameThrower : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.Mouse0))
         {
-            Debug.Log("flame on");
             flames.Play();
             playerBody.GetComponent<PlayerMovement>().aimingDown = true;
         }
@@ -25,6 +24,15 @@ public class FlameThrower : MonoBehaviour
         {
             flames.Stop();
             playerBody.GetComponent<PlayerMovement>().aimingDown = false;
+        }
+    }
+    private void OnParticleCollision(GameObject other)
+    {
+        Debug.Log(other.name);
+        if (other.CompareTag("Enemy"))
+        {
+            other.GetComponent<EnemyHealth>().CatchFire(1);
+            Debug.Log("fire has been sent");
         }
     }
 }

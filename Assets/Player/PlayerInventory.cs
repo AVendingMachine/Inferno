@@ -12,12 +12,12 @@ public class PlayerInventory : MonoBehaviour
         if (Input.GetAxis("Mouse ScrollWheel") > 0f) 
         {
             selectedItem = Mathf.Clamp(selectedItem + 1,-1, items.Count);
-            Debug.Log("forward");
+           // Debug.Log("forward");
         }
         else if (Input.GetAxis("Mouse ScrollWheel") < 0f)
         {
             selectedItem = Mathf.Clamp(selectedItem - 1, -1, items.Count);
-            Debug.Log("backward");
+          //  Debug.Log("backward");
         }
         if (selectedItem > items.Count-1)
         {
