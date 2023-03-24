@@ -7,9 +7,14 @@ public class FlameThrower : MonoBehaviour
     public ParticleSystem flames;
     public GameObject playerBody;
     public GameObject mainCam;
+    public float fireDamage = 1;
     private void OnEnable()
     {
-        flames.Stop();
+        if (flames.isPlaying)
+        {
+            flames.Stop();
+        }
+        
     }
 
     // Update is called once per frame
@@ -17,12 +22,20 @@ public class FlameThrower : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.Mouse0))
         {
-            flames.Play();
+            if (!flames.isPlaying)
+            {
+                flames.Play();
+            }
+            
             playerBody.GetComponent<PlayerMovement>().aimingDown = true;
         }
         if (Input.GetKeyUp(KeyCode.Mouse0))
         {
-            flames.Stop();
+            if (flames.isPlaying)
+            {
+                flames.Stop();
+            }
+            
             playerBody.GetComponent<PlayerMovement>().aimingDown = false;
         }
     }
@@ -31,7 +44,7 @@ public class FlameThrower : MonoBehaviour
         Debug.Log(other.name);
         if (other.CompareTag("Enemy"))
         {
-            other.GetComponent<EnemyHealth>().CatchFire(1);
+            other.GetComponent<EnemyHealth>().CatchFire(fireDamage*0.01f);
             Debug.Log("fire has been sent");
         }
     }

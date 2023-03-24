@@ -11,6 +11,7 @@ public class EnemyHealth : MonoBehaviour
     private bool onFire = false;
     private float fireTime = 0f;
     public ParticleSystem fireSystem;
+    public Transform center;
 
     private void OnEnable()
     {
@@ -21,11 +22,19 @@ public class EnemyHealth : MonoBehaviour
     {
         if (onFire)
         {
-            fireSystem.Play();
+            if (!fireSystem.isPlaying)
+            {
+                fireSystem.Play();
+            }
+            currentHealth -= Time.deltaTime;
         }
         if (!onFire)
         {
-            fireSystem.Stop();
+            if (fireSystem.isPlaying)
+            {
+                fireSystem.Stop();
+            }
+            
         }
 
         if (fireTime >0)
@@ -40,8 +49,7 @@ public class EnemyHealth : MonoBehaviour
         
         if (currentHealth <= 0 )
         {
-            Instantiate(ragDoll, transform.position, transform.
-                rotation);
+            Instantiate(ragDoll, center.position, transform.rotation);
             Destroy(gameObject);
         }
     }

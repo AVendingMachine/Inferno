@@ -29,7 +29,7 @@ public class RocketProjectile : MonoBehaviour
     }
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.transform.tag == "Ground")
+        if (collision.transform.tag != "Player")
         {
             Explode();
         }
@@ -45,6 +45,7 @@ public class RocketProjectile : MonoBehaviour
         light2.SetActive(true);
         exploded = true;
         fadeLight = true;
+        StartCoroutine(ExplosionDamage());
 
     }
     private void Update()
@@ -52,6 +53,27 @@ public class RocketProjectile : MonoBehaviour
         if (fadeLight)
         {
             light2.GetComponent<Light>().intensity -= 10*Time.deltaTime;
+        }
+    }
+
+    IEnumerator ExplosionDamage()
+    {
+        Collider[] hitEnemies = Physics.OverlapSphere(transform.position, 3);
+        foreach (Collider target in hitEnemies)
+        {
+            if (target.transform.gameObject.CompareTag("Enemy"))
+            {
+                target.GetComponent<EnemyHealth>().TakeDamage(10);
+            }
+        }
+        yield return new WaitForSeconds(0.1f);
+        Collider[] hitEnemies2 = Physics.OverlapSphere(transform.position, 3);
+        foreach (Collider target in hitEnemies2)
+        {
+            if (target.transform.gameObject.GetComponent<Rigidbody>() != null)
+            {
+                target.GetComponent<Rigidbody>().AddExplosionForce(3000, transform.position,3);
+            }
         }
     }
 }
