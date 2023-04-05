@@ -40,19 +40,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 556797029e73b2347956b6579e77e05b, type: 3}
   m_Name: DepthOfField
   m_EditorClassIdentifier: 
-  active: 0
+  active: 1
   enabled:
     overrideState: 1
     value: 1
   focusDistance:
     overrideState: 1
-    value: 6.7
+    value: 1.7
   aperture:
     overrideState: 1
-    value: 10.2
+    value: 7.2
   focalLength:
-    overrideState: 0
-    value: 50
+    overrideState: 1
+    value: 40
   kernelSize:
     overrideState: 0
     value: 1
@@ -112,10 +112,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b94fcd11afffcb142908bfcb1e261fba, type: 3}
   m_Name: MotionBlur
   m_EditorClassIdentifier: 
-  active: 0
+  active: 1
   enabled:
     overrideState: 1
-    value: 0
+    value: 1
   shutterAngle:
     overrideState: 1
     value: 360
@@ -178,7 +178,7 @@ MonoBehaviour:
     value: -50
   tint:
     overrideState: 1
-    value: 0
+    value: 68
   colorFilter:
     overrideState: 1
     value: {r: 1, g: 1, b: 1, a: 1}
@@ -193,7 +193,7 @@ MonoBehaviour:
     value: 0
   postExposure:
     overrideState: 1
-    value: 0
+    value: 1
   contrast:
     overrideState: 1
     value: 0
@@ -225,14 +225,14 @@ MonoBehaviour:
     overrideState: 0
     value: 100
   lift:
-    overrideState: 0
-    value: {x: 1, y: 1, z: 1, w: 0}
+    overrideState: 1
+    value: {x: 1, y: 1, z: 1, w: -0.079470195}
   gamma:
-    overrideState: 0
-    value: {x: 1, y: 1, z: 1, w: 0.03311258}
+    overrideState: 1
+    value: {x: 0.95044684, y: 0.97806066, z: 1, w: 0.4370861}
   gain:
-    overrideState: 0
-    value: {x: 1, y: 1, z: 1, w: 0.58278143}
+    overrideState: 1
+    value: {x: 0.98055, y: 1, z: 0.9717506, w: 0.7284768}
   masterCurve:
     overrideState: 0
     value:
@@ -1451,22 +1451,22 @@ MonoBehaviour:
     value: 1
   intensity:
     overrideState: 1
-    value: 12.38
+    value: 2.5
   threshold:
     overrideState: 1
     value: 1
   softKnee:
     overrideState: 1
-    value: 0.52
+    value: 1
   clamp:
     overrideState: 1
     value: 65472
   diffusion:
     overrideState: 1
-    value: 5.5
+    value: 5.3
   anamorphicRatio:
     overrideState: 1
-    value: 0.19
+    value: 0.92
   color:
     overrideState: 1
     value: {r: 1, g: 1, b: 1, a: 1}
@@ -1555,7 +1555,7 @@ MonoBehaviour:
     value: 1
   preset:
     overrideState: 1
-    value: 2
+    value: 3
   maximumIterationCount:
     overrideState: 0
     value: 16
@@ -1592,10 +1592,10 @@ MonoBehaviour:
     value: 1
   mode:
     overrideState: 1
-    value: 1
+    value: 0
   intensity:
     overrideState: 1
-    value: 0.38
+    value: 1.65
   color:
     overrideState: 1
     value: {r: 0, g: 0, b: 0, a: 1}
