@@ -5,7 +5,8 @@ using UnityEngine;
 public class PlayerInventory : MonoBehaviour
 {
     public List<GameObject> items;
-    private int selectedItem = 0;
+    public int selectedItem = 0;
+    public GameObject currentItem;
     void Update()
     {
         
@@ -36,6 +37,10 @@ public class PlayerInventory : MonoBehaviour
             if (items.IndexOf(item) != selectedItem)
             {
                 item.SetActive(false);
+            }
+            if (item.activeSelf == true)
+            {
+                currentItem = item;
             }
 
         }
