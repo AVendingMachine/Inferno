@@ -5392,6 +5392,7 @@ GameObject:
   - component: {fileID: 2244932767596194857}
   - component: {fileID: 2244932767596194903}
   - component: {fileID: 2244932767596194902}
+  - component: {fileID: 3534880784500686993}
   m_Layer: 0
   m_Name: bugman
   m_TagString: Enemy
@@ -5417,6 +5418,7 @@ Transform:
   - {fileID: 1434101419821938181}
   - {fileID: 1434101420384218336}
   - {fileID: 1434101419696900007}
+  - {fileID: 1939949792960831084}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5431,9 +5433,9 @@ NavMeshAgent:
   m_AgentTypeID: 0
   m_Radius: 2.38
   m_Speed: 7
-  m_Acceleration: 8
+  m_Acceleration: 1000
   avoidancePriority: 50
-  m_AngularSpeed: 120
+  m_AngularSpeed: 1000
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
@@ -5454,7 +5456,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42e00ef519aadc940a62f0a2f6e435e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  anim: {fileID: 2244932767596194856}
   agent: {fileID: 1434101420151220856}
+  attacking: 0
+  attackDamage: 1
+  moveSpeed: 10
+  rig: {fileID: 0}
 --- !u!114 &2244932767596194901
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5573,6 +5580,19 @@ CapsuleCollider:
   m_Height: 14.29
   m_Direction: 1
   m_Center: {x: 0, y: 7.07, z: 0}
+--- !u!65 &3534880784500686993
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2244932767596194859}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 5.37, y: 16.2, z: 9.09}
+  m_Center: {x: 0, y: 5.83, z: 5.23}
 --- !u!1 &2560098553525866669
 GameObject:
   m_ObjectHideFlags: 0
@@ -6148,6 +6168,52 @@ Transform:
   m_Father: {fileID: 7556089695532164623}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &5787309625137589134
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1939949792960831084}
+  - component: {fileID: 289001172955784165}
+  m_Layer: 0
+  m_Name: AttackBox
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &1939949792960831084
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5787309625137589134}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1471633476922177169}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!136 &289001172955784165
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5787309625137589134}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 6.29
+  m_Height: 17.42
+  m_Direction: 1
+  m_Center: {x: 0, y: 5.5, z: 0}
 --- !u!1 &5838481880846654192
 GameObject:
   m_ObjectHideFlags: 0
