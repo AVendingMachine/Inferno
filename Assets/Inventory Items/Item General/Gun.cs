@@ -14,7 +14,7 @@ public class Gun : MonoBehaviour
     public float reloadTime = 2f;
     public float recoilMod = 0.5f;
     public float damage = 1;
-    public int maxAmmo = 20;
+    public float maxAmmo = 20;
     public int bulletsAShot = 1;
     //Public Object References
     public GameObject bulletMarker;
@@ -28,7 +28,7 @@ public class Gun : MonoBehaviour
     //Private Variables
     private float currentSpread;
     private float coolDown = 0f;
-    private int currentammo;
+    public float currentammo;
     private float adsTime = 0;
     private bool recoilEnabled = false;
     private bool reloading = false;
@@ -129,7 +129,9 @@ public class Gun : MonoBehaviour
         RaycastHit hit;
         void Shoot()
         {
-            currentammo = Mathf.Clamp(currentammo - bulletsAShot, 0, maxAmmo);
+            //currentammo = Mathf.Clamp(currentammo - bulletsAShot, 0, maxAmmo);
+            GetComponent<AmmoSystem>().LoseAmmo(bulletsAShot);
+            currentammo = GetComponent<AmmoSystem>().currentAmmo;
             coolDown = fireCoolDown;
             deviation = new Vector3(Random.Range(-currentSpread, currentSpread), Random.Range(-currentSpread, currentSpread), Random.Range(-currentSpread, currentSpread));
             if (Physics.Raycast(mainCam.transform.position, mainCam.transform.forward + deviation, out hit, Mathf.Infinity, bulletMask))
@@ -147,14 +149,20 @@ public class Gun : MonoBehaviour
 
     IEnumerator Reload()
     {
-        reloading = true;
-        magazine.GetComponent<Rigidbody>().isKinematic = false;
-        yield return new WaitForSeconds(reloadTime);
-        magazine.GetComponent<Rigidbody>().isKinematic = true;
-        currentammo = maxAmmo;
-        magazine.transform.localPosition = magPos.localPosition;
-        magazine.transform.localRotation = magPos.localRotation;
-        reloading = false;
+        if (GetComponent<AmmoSystem>().outOfAmmo == false)
+        {
+            reloading = true;
+            magazine.GetComponent<Rigidbody>().isKinematic = false;
+            yield return new WaitForSeconds(reloadTime);
+            magazine.GetComponent<Rigidbody>().isKinematic = true;
+            //if (GetComponent<AmmoSystem>().currentReserve >= maxAmmo) { 
+            // }
+            currentammo = Mathf.Clamp(GetComponent<AmmoSystem>().currentReserve,0,maxAmmo);
+            magazine.transform.localPosition = magPos.localPosition;
+            magazine.transform.localRotation = magPos.localRotation;
+            reloading = false;
+        }
+        
     }
     IEnumerator Recoil(float timer)
     {

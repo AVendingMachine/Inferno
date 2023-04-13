@@ -11,9 +11,11 @@ public class WeaponUI : MonoBehaviour
     public GameObject Player;
     private GameObject selectedItem;
 
+
     private void Update()
     {
         selectedItem = Player.GetComponent<PlayerInventory>().currentItem;
         itemNameDisplay.text = selectedItem.name;
+        ammoCounter.text =  (selectedItem.GetComponent<AmmoSystem>().currentAmmo).ToString() + "/" + selectedItem.GetComponent<AmmoSystem>().currentReserve;
     }
 }

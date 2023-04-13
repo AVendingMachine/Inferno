@@ -7,6 +7,7 @@ public class PlayerInventory : MonoBehaviour
     public List<GameObject> items;
     public int selectedItem = 0;
     public GameObject currentItem;
+    public List<float> reserveAmmoCounts;
     void Update()
     {
         
@@ -30,6 +31,7 @@ public class PlayerInventory : MonoBehaviour
         }
         foreach (GameObject item in items)
         {
+
             if (items.IndexOf(item) == selectedItem)
             {
                 item.SetActive(true);
@@ -44,6 +46,8 @@ public class PlayerInventory : MonoBehaviour
             }
 
         }
+        
+      
     }
 }
 
