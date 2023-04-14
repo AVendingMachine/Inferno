@@ -17,7 +17,7 @@ public class RocketLauncher : MonoBehaviour
     public ParticleSystem smokeParticle;
     //Private Variables
     private float adsTime = 0;
-    private bool onCooldown = false;
+    private bool reloading = false;
     private bool recoiling = false;
     private Vector3 startingPos;
     Quaternion randomAngle;
@@ -25,10 +25,10 @@ public class RocketLauncher : MonoBehaviour
 
     private void OnEnable()
     {
-        if (onCooldown)
-        {
-            StartCoroutine(CooldownTimer());
-        }
+       // if (reloading)
+       // {
+       //     StartCoroutine(CooldownTimer());
+     //   }
     }
     public void Awake()
     {
@@ -37,13 +37,17 @@ public class RocketLauncher : MonoBehaviour
 
     void Update()
     {
-        //Rocket firing + Recoil Trigger
-        if (Input.GetKeyDown(KeyCode.Mouse0) && !onCooldown)
+        if (GetComponent<AmmoSystem>().currentAmmo <= 0 && !reloading)
         {
-            smokeParticle.Play();
             rocketModel.GetComponent<MeshRenderer>().enabled = false;
-            onCooldown = true;
-            StartCoroutine(CooldownTimer());
+            StartCoroutine(Reload());
+        }
+        //Rocket firing + Recoil Trigger
+        if (Input.GetKeyDown(KeyCode.Mouse0) && !reloading)
+        {
+            GetComponent<AmmoSystem>().LoseAmmo(1);
+            smokeParticle.Play();
+            
             Instantiate(rocketProjectile, rocketPosition.position, rocketPosition.transform.rotation);
             StartCoroutine(RecoilTimer());
             randomAngle = Quaternion.Euler(mainCam.transform.localRotation.eulerAngles + new Vector3(-30, 0, 0));
@@ -85,13 +89,14 @@ public class RocketLauncher : MonoBehaviour
 
 
     }
-    
-    IEnumerator CooldownTimer()
-    {
-        yield return new WaitForSeconds(coolDown);
-        onCooldown = false;
-        rocketModel.GetComponent<MeshRenderer>().enabled = true;
 
+
+    private IEnumerator Reload()
+    {
+        reloading = true;
+        yield return new WaitForSeconds(GetComponent<AmmoSystem>().reloadTime);
+        reloading = false;
+        rocketModel.GetComponent<MeshRenderer>().enabled = true;
     }
     IEnumerator RecoilTimer()
     {

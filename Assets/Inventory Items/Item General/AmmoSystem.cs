@@ -12,8 +12,14 @@ public class AmmoSystem : MonoBehaviour
     public bool outOfAmmo = false;
     bool reloading = false;
 
+    private void Awake()
+    {
+        currentAmmo = maxAmmo;
+        currentReserve = maxReserve;
+    }
     private void OnEnable()
     {
+        
         if (currentAmmo == 0)
         {
             StartCoroutine(Refill());
@@ -21,8 +27,8 @@ public class AmmoSystem : MonoBehaviour
     }
     void Start()
     {
-        currentAmmo = maxAmmo;
-        currentReserve = maxReserve;
+        
+        
     }
     private void Update()
     {

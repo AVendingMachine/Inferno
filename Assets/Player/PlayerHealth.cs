@@ -7,7 +7,7 @@ public class PlayerHealth : MonoBehaviour
 {
     public float maxHealth = 30;
     public GameObject mainCamera;
-    private float currentHealth;
+    public float currentHealth;
     // Start is called before the first frame update
     void Start()
     {

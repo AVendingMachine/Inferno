@@ -11,7 +11,7 @@ public class Gun : MonoBehaviour
     public float recoil = 100f;
     public float adsStabilityMod = 0.3f;
     public float adsFovModifier = 45;
-    public float reloadTime = 2f;
+    //public float reloadTime = 2f;
     public float recoilMod = 0.5f;
     public float damage = 1;
     public float maxAmmo = 20;
@@ -103,7 +103,7 @@ public class Gun : MonoBehaviour
         {
             
             
-            if (coolDown <= 0 && currentammo > 0 &! reloading)
+            if (coolDown <= 0 && GetComponent<AmmoSystem>().currentAmmo > 0 &! reloading)
             {
                 recoilAngle = Quaternion.Euler(-fireCoolDown*recoil, fireCoolDown*recoil, -fireCoolDown*recoil);
                 Shoot();
@@ -130,8 +130,9 @@ public class Gun : MonoBehaviour
         void Shoot()
         {
             //currentammo = Mathf.Clamp(currentammo - bulletsAShot, 0, maxAmmo);
-            GetComponent<AmmoSystem>().LoseAmmo(bulletsAShot);
             currentammo = GetComponent<AmmoSystem>().currentAmmo;
+            GetComponent<AmmoSystem>().LoseAmmo(bulletsAShot);
+            
             coolDown = fireCoolDown;
             deviation = new Vector3(Random.Range(-currentSpread, currentSpread), Random.Range(-currentSpread, currentSpread), Random.Range(-currentSpread, currentSpread));
             if (Physics.Raycast(mainCam.transform.position, mainCam.transform.forward + deviation, out hit, Mathf.Infinity, bulletMask))
@@ -153,7 +154,7 @@ public class Gun : MonoBehaviour
         {
             reloading = true;
             magazine.GetComponent<Rigidbody>().isKinematic = false;
-            yield return new WaitForSeconds(reloadTime);
+            yield return new WaitForSeconds(GetComponent<AmmoSystem>().reloadTime);
             magazine.GetComponent<Rigidbody>().isKinematic = true;
             //if (GetComponent<AmmoSystem>().currentReserve >= maxAmmo) { 
             // }

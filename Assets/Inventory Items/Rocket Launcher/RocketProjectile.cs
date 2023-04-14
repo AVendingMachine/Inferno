@@ -9,7 +9,7 @@ public class RocketProjectile : MonoBehaviour
     bool exploded = false;
     public GameObject rocketModel;
     public float speed = 1;
-    public GameObject light;
+    public GameObject smallLight;
     public GameObject light2;
     bool fadeLight = false;
     // Start is called before the first frame update
@@ -41,7 +41,7 @@ public class RocketProjectile : MonoBehaviour
         rocketModel.GetComponent<MeshRenderer>().enabled = false;
         ps.Play();
         fire.Stop();
-        Destroy(light);
+        Destroy(smallLight);
         light2.SetActive(true);
         exploded = true;
         fadeLight = true;

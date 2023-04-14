@@ -8,6 +8,8 @@ public class FlameThrower : MonoBehaviour
     public GameObject playerBody;
     public GameObject mainCam;
     public float fireDamage = 1;
+    bool reloading = false;
+    
     private void OnEnable()
     {
         if (flames.isPlaying)
@@ -20,7 +22,12 @@ public class FlameThrower : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.Mouse0))
+        if (GetComponent<AmmoSystem>().currentAmmo <= 0 && !reloading)
+        {
+            StartCoroutine(Reload());
+        }
+
+        if (Input.GetKey(KeyCode.Mouse0) && !reloading)
         {
             if (!flames.isPlaying)
             {
@@ -29,7 +36,7 @@ public class FlameThrower : MonoBehaviour
             
             playerBody.GetComponent<PlayerMovement>().aimingDown = true;
         }
-        if (Input.GetKeyUp(KeyCode.Mouse0))
+        if (Input.GetKeyUp(KeyCode.Mouse0) || reloading)
         {
             if (flames.isPlaying)
             {
@@ -38,6 +45,23 @@ public class FlameThrower : MonoBehaviour
             
             playerBody.GetComponent<PlayerMovement>().aimingDown = false;
         }
+    }
+
+    private void FixedUpdate()
+    {
+        
+        if (Input.GetKey(KeyCode.Mouse0))
+        {
+
+            GetComponent<AmmoSystem>().LoseAmmo(1);
+        }
+    }
+
+    private IEnumerator Reload()
+    {
+        reloading = true;
+        yield return new WaitForSeconds(GetComponent<AmmoSystem>().reloadTime);
+        reloading = false;
     }
     private void OnParticleCollision(GameObject other)
     {
