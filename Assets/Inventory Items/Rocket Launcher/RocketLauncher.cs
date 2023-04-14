@@ -37,13 +37,13 @@ public class RocketLauncher : MonoBehaviour
 
     void Update()
     {
-        if (GetComponent<AmmoSystem>().currentAmmo <= 0 && !reloading)
+        if (GetComponent<AmmoSystem>().currentAmmo <= 0 && !reloading && InGameMenu.gamePaused == false)
         {
             rocketModel.GetComponent<MeshRenderer>().enabled = false;
             StartCoroutine(Reload());
         }
         //Rocket firing + Recoil Trigger
-        if (Input.GetKeyDown(KeyCode.Mouse0) && !reloading)
+        if (Input.GetKeyDown(KeyCode.Mouse0) && !reloading && InGameMenu.gamePaused == false)
         {
             GetComponent<AmmoSystem>().LoseAmmo(1);
             smokeParticle.Play();

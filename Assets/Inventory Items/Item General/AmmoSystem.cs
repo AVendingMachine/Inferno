@@ -32,7 +32,7 @@ public class AmmoSystem : MonoBehaviour
     }
     private void Update()
     {
-        if (currentAmmo <= 0 && !reloading)
+        if (currentAmmo <= 0 && !reloading && InGameMenu.gamePaused == false)
         {
             StartCoroutine(Refill());
             reloading = true;

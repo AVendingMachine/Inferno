@@ -101,9 +101,9 @@ public class Gun : MonoBehaviour
         transform.localRotation = Quaternion.Lerp(startingRot, recoilAngle, coolDown);
         if (Input.GetKey(KeyCode.Mouse0))
         {
-            
-            
-            if (coolDown <= 0 && GetComponent<AmmoSystem>().currentAmmo > 0 &! reloading)
+
+
+            if (coolDown <= 0 && GetComponent<AmmoSystem>().currentAmmo > 0 && !reloading && InGameMenu.gamePaused == false)
             {
                 recoilAngle = Quaternion.Euler(-fireCoolDown*recoil, fireCoolDown*recoil, -fireCoolDown*recoil);
                 Shoot();
