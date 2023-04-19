@@ -12,7 +12,13 @@ public class EnemyHealth : MonoBehaviour
     private float fireTime = 0f;
     public ParticleSystem fireSystem;
     public Transform center;
+    private GameObject waveManager;
+    public GameObject ammoBox;
 
+    private void Awake()
+    {
+        waveManager = GameObject.FindGameObjectWithTag("WaveManager");
+    }
     private void OnEnable()
     {
         currentHealth = maxHealth;
@@ -26,7 +32,7 @@ public class EnemyHealth : MonoBehaviour
             {
                 fireSystem.Play();
             }
-            currentHealth -= Time.deltaTime;
+            currentHealth -= 3*Time.deltaTime;
         }
         if (!onFire)
         {
@@ -49,13 +55,26 @@ public class EnemyHealth : MonoBehaviour
         
         if (currentHealth <= 0 )
         {
-            Instantiate(ragDoll, center.position, transform.rotation);
-            Destroy(gameObject);
+            Die();
         }
     }
+
+    public void Die()
+    {
+        int randomInt = Random.Range(0, 10);
+        if (randomInt >= 5)
+        {
+            Instantiate(ammoBox, transform.position, Quaternion.identity);
+        }
+        Instantiate(ragDoll, center.position, transform.rotation);
+        waveManager.GetComponent<WaveManager>().deadEnemies++;
+        Destroy(gameObject);
+    }
+
     public void TakeDamage(float damage)
     {
         currentHealth -= damage;
+        GetComponent<Bugman>().StartStagger();
     }
     public void CatchFire(float burnAmount)
     {

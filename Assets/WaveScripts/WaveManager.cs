@@ -8,7 +8,6 @@ public class WaveManager : MonoBehaviour
 {
     public List<GameObject> possibleEnemies;
     public List<GameObject> spawningLocations;
-    public List<GameObject> spawnedEnemies;
     public float currentWave = 1f;
     public TMP_Text waveText;
     private int waveTimeElapsed = 10000;
@@ -18,7 +17,8 @@ public class WaveManager : MonoBehaviour
     public int maxWaveDuration = 10;
     private int waveDuration;
     bool startingNewWave = false;
-
+    public int spawnedEnemies = 0;
+    public int deadEnemies = 0;
 
 
     private void Start()
@@ -34,15 +34,20 @@ public class WaveManager : MonoBehaviour
 
     private void Update()
     {
-        if (waveTimeElapsed == 0 &! startingNewWave)
+        
+        if (waveTimeElapsed == 0 && deadEnemies >= spawnedEnemies &! startingNewWave)
         {
             startingNewWave = true;
             NextWave();
         }
     }
 
+
+
     public void NextWave()
     {
+        deadEnemies = 0;
+        spawnedEnemies = 0;
         waveTimeElapsed = maxWaveDuration;
         waveDuration = maxWaveDuration;
         waveNumber += 1;
@@ -67,12 +72,12 @@ public class WaveManager : MonoBehaviour
     }
     public void SpawnEnemy()
     {
+        spawnedEnemies++;
         int pickedEnemy = Random.Range(0, possibleEnemies.Count);
         int pickSpawner = Random.Range(0, spawningLocations.Count);
         Instantiate(possibleEnemies[pickedEnemy], spawningLocations[pickSpawner].transform.position, Quaternion.identity);
-        spawnedEnemies.Add(possibleEnemies[pickedEnemy]);
-        Debug.Log(possibleEnemies[pickedEnemy]);
-        Debug.Log("Spawned enemy " + possibleEnemies[pickedEnemy].name + " at spawner " + spawningLocations[pickSpawner].name);
+        //Debug.Log(possibleEnemies[pickedEnemy]);
+        //Debug.Log("Spawned enemy " + possibleEnemies[pickedEnemy].name + " at spawner " + spawningLocations[pickSpawner].name);
     }
 
     public IEnumerator WaveTimer(int startTime, int waveNumber)
@@ -87,5 +92,7 @@ public class WaveManager : MonoBehaviour
 
         }
     }
+
+
 
 }

@@ -5479,6 +5479,7 @@ MonoBehaviour:
   maxBurnTime: 10
   fireSystem: {fileID: 1434101419660766858}
   center: {fileID: 1434101419696900007}
+  ammoBox: {fileID: 2814022062331739533, guid: c46e54182a10d4942a73ed916a07be6e, type: 3}
 --- !u!95 &2244932767596194856
 Animator:
   serializedVersion: 4

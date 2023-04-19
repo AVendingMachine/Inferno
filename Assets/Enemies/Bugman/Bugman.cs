@@ -67,4 +67,17 @@ public class Bugman : MonoBehaviour
         attacking = false;
     }
 
+    public void StartStagger()
+    {
+        StartCoroutine(Stagger());
+    }
+    public IEnumerator Stagger()
+    {
+        GetComponent<NavMeshAgent>().speed = 0;
+        anim.SetBool("staggering", true);
+        yield return new WaitForSeconds(0.2f);
+        anim.SetBool("staggering", false);
+        GetComponent<NavMeshAgent>().speed = moveSpeed;
+    }
+
 }

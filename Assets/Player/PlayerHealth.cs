@@ -8,9 +8,13 @@ public class PlayerHealth : MonoBehaviour
     public float maxHealth = 30;
     public GameObject mainCamera;
     public float currentHealth;
+    public PostProcessVolume postVolume;
+    private ColorGrading colorGrade;
+    public GameObject UIX;
     // Start is called before the first frame update
     void Start()
     {
+        postVolume.profile.TryGetSettings(out colorGrade);
         currentHealth = maxHealth;
     }
 
@@ -31,7 +35,10 @@ public class PlayerHealth : MonoBehaviour
     void Die()
     {
         GetComponent<PlayerMovement>().enabled = false;
-        //mainCamera.GetComponent<Bloom>().intensity.value = 100;
+        colorGrade.saturation.value = -100;
+        mainCamera.AddComponent<Rigidbody>();
+        mainCamera.AddComponent<BoxCollider>();
+        UIX.SetActive(false);
         Debug.Log("you dead lol");
     }
 }
