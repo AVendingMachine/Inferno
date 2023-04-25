@@ -10,6 +10,8 @@ public class Crawler : MonoBehaviour
     public NavMeshAgent agent;
     public Animator anim;
     bool playerInRange = false;
+    public GameObject bugBlast;
+    public Transform blasterTip;
 
 
 
@@ -56,6 +58,7 @@ public class Crawler : MonoBehaviour
     private IEnumerator AttackCycle()
     {
         anim.SetBool("attacking", true);
+        Instantiate(bugBlast, blasterTip.position, Quaternion.identity);
         yield return new WaitForSeconds(0.2f);
         anim.SetBool("attacking", false);
         Debug.Log("bazomples");
