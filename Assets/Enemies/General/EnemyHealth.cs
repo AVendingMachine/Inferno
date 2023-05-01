@@ -68,13 +68,14 @@ public class EnemyHealth : MonoBehaviour
         }
         Instantiate(ragDoll, center.position, transform.rotation);
         waveManager.GetComponent<WaveManager>().deadEnemies++;
+        Debug.Log("i despise you");
         Destroy(gameObject);
     }
 
     public void TakeDamage(float damage)
     {
         currentHealth -= damage;
-        GetComponent<Bugman>().StartStagger();
+       // GetComponent<Bugman>().StartStagger();
     }
     public void CatchFire(float burnAmount)
     {

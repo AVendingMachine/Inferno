@@ -32,8 +32,23 @@ public class PlayerMovement : MonoBehaviour
     public GameObject mainCamera;
     float xAxis = 0;
     float zAxis = 0;
+    public GameObject rocketJumpDummy;
+    bool rocketJumping = false;
+    GameObject dummy;
+    public Transform dummyPos;
 
+    public void RocketJump()
+    {
+        dummy = Instantiate(rocketJumpDummy, dummyPos.position, Quaternion.identity);
+        rocketJumping = true;
+    }
+    public void StopJumping()
+    {
+        rocketJumping = false;
+        GetComponent<CharacterController>().enabled = true;
+        moveSpeed = 10f;
 
+    }
     IEnumerator FallingCheck()
     {
         isCheckingFall = true;
@@ -71,6 +86,13 @@ public class PlayerMovement : MonoBehaviour
     }
     void Update()
     {
+        if (rocketJumping)
+        {
+            moveSpeed = 0f;
+            GetComponent<CharacterController>().enabled = false;
+            transform.position = dummy.transform.position;
+            
+        }
         if (!isCheckingMove)
         {
             StartCoroutine(MovementCheck());

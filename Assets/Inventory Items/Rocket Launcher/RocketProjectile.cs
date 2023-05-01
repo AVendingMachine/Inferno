@@ -65,6 +65,10 @@ public class RocketProjectile : MonoBehaviour
             {
                 target.GetComponent<EnemyHealth>().TakeDamage(10);
             }
+            if (target.transform.gameObject.CompareTag("Player"))
+            {
+                target.GetComponent<PlayerMovement>().RocketJump();
+            }
         }
         yield return new WaitForSeconds(0.1f);
         Collider[] hitEnemies2 = Physics.OverlapSphere(transform.position, 3);

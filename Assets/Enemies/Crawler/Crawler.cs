@@ -12,6 +12,7 @@ public class Crawler : MonoBehaviour
     bool playerInRange = false;
     public GameObject bugBlast;
     public Transform blasterTip;
+    bool attacking = false;
 
 
 
@@ -37,7 +38,10 @@ public class Crawler : MonoBehaviour
 
         if (other.gameObject.CompareTag("Player"))
         {
-            StartCoroutine(AttackCycle());
+            if (!attacking)
+            {
+                StartCoroutine(AttackCycle());
+            }
             anim.SetBool("walking", false);
             playerInRange = true;
             agent.speed = 0.1f;
@@ -57,9 +61,11 @@ public class Crawler : MonoBehaviour
     }
     private IEnumerator AttackCycle()
     {
+        attacking = true;
         anim.SetBool("attacking", true);
         Instantiate(bugBlast, blasterTip.position, Quaternion.identity);
         yield return new WaitForSeconds(0.2f);
+        attacking = false;
         anim.SetBool("attacking", false);
         Debug.Log("bazomples");
         yield return new WaitForSeconds(2);

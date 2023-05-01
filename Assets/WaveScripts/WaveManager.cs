@@ -51,7 +51,7 @@ public class WaveManager : MonoBehaviour
         waveTimeElapsed = maxWaveDuration;
         waveDuration = maxWaveDuration;
         waveNumber += 1;
-        enemyNumber++;
+        enemyNumber += 3;
         StartCoroutine(SpawnWave(waveNumber, enemyNumber, waveDuration));
         StartCoroutine(WaveTimer(waveDuration, waveNumber));
         startingNewWave = false;
