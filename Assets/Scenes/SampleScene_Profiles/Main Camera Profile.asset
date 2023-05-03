@@ -1537,7 +1537,7 @@ MonoBehaviour:
     value: 0.5
   vignette:
     overrideState: 1
-    value: 0.5
+    value: 0.757
 --- !u!114 &6305497423305184760
 MonoBehaviour:
   m_ObjectHideFlags: 3

@@ -13,6 +13,7 @@ public class Crawler : MonoBehaviour
     public GameObject bugBlast;
     public Transform blasterTip;
     bool attacking = false;
+    
 
 
 
@@ -65,13 +66,18 @@ public class Crawler : MonoBehaviour
         anim.SetBool("attacking", true);
         Instantiate(bugBlast, blasterTip.position, Quaternion.identity);
         yield return new WaitForSeconds(0.2f);
-        attacking = false;
+        
         anim.SetBool("attacking", false);
         Debug.Log("bazomples");
         yield return new WaitForSeconds(2);
+
         if (playerInRange)
         {
             StartCoroutine(AttackCycle());
+        }
+        if (!playerInRange)
+        {
+            attacking = false;
         }
     }
 }

@@ -7,13 +7,17 @@ public class EnemyHealth : MonoBehaviour
     public float maxHealth = 10;
     public GameObject ragDoll;
     public float maxBurnTime = 10f;
-    private float currentHealth;
+    public float currentHealth;
     private bool onFire = false;
     private float fireTime = 0f;
     public ParticleSystem fireSystem;
+    public ParticleSystem deathSytem;
     public Transform center;
     private GameObject waveManager;
     public GameObject ammoBox;
+    public bool ragDollOnDeath = true;
+    bool dying = false;
+    public GameObject model;
 
     private void Awake()
     {
@@ -53,7 +57,7 @@ public class EnemyHealth : MonoBehaviour
             onFire = false;
         }
         
-        if (currentHealth <= 0 )
+        if (currentHealth <= 0 && !dying)
         {
             Die();
         }
@@ -61,15 +65,25 @@ public class EnemyHealth : MonoBehaviour
 
     public void Die()
     {
+        dying = true;
         int randomInt = Random.Range(0, 10);
         if (randomInt >= 5)
         {
             Instantiate(ammoBox, transform.position, Quaternion.identity);
         }
-        Instantiate(ragDoll, center.position, transform.rotation);
+        if (ragDollOnDeath)
+        {
+            Instantiate(ragDoll, center.position, transform.rotation);
+            Destroy(gameObject);
+        }
+        if (!ragDollOnDeath)
+        {
+            deathSytem.Play();
+            model.GetComponent<SkinnedMeshRenderer>().enabled = false;
+            StartCoroutine(DeathTimer());
+        }
         waveManager.GetComponent<WaveManager>().deadEnemies++;
         Debug.Log("i despise you");
-        Destroy(gameObject);
     }
 
     public void TakeDamage(float damage)
@@ -85,6 +99,11 @@ public class EnemyHealth : MonoBehaviour
             fireTime += burnAmount;
         }
         
+    }
+    IEnumerator DeathTimer()
+    {
+        yield return new WaitForSeconds(1f);
+        Destroy(gameObject);
     }
    
 
