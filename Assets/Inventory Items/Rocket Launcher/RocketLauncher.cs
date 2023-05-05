@@ -25,10 +25,10 @@ public class RocketLauncher : MonoBehaviour
 
     private void OnEnable()
     {
-       // if (reloading)
-       // {
-       //     StartCoroutine(CooldownTimer());
-     //   }
+       if (reloading)
+       {
+           StartCoroutine(Reload());
+       }
     }
     public void Awake()
     {

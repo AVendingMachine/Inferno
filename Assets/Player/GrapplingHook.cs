@@ -55,7 +55,7 @@ public class GrapplingHook : MonoBehaviour
 
         if (grappling)
         {
-            sphook.position = Vector3.Lerp(transform.position, hook.position, 600*grappleTime);
+            sphook.position = Vector3.Lerp(transform.position, hook.position, 200*grappleTime);
             player.position = Vector3.Lerp(player.position, hook.position, grappleTime);
             grappleTime = Mathf.Clamp(grappleTime + 0.5f * (Time.deltaTime / Vector3.Distance(player.position, hook.position)), 0, 1);
             player.GetComponent<PlayerMovement>().velocity.y = 0;
@@ -69,5 +69,6 @@ public class GrapplingHook : MonoBehaviour
             player.GetComponent<PlayerMovement>().enabled = true;
             lineRenderer.enabled = false;
         }
+
     }
 }

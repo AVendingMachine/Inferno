@@ -32,21 +32,22 @@ public class PlayerMovement : MonoBehaviour
     public GameObject mainCamera;
     float xAxis = 0;
     float zAxis = 0;
-    public GameObject rocketJumpDummy;
     bool rocketJumping = false;
-    GameObject dummy;
     public Transform dummyPos;
 
     public void RocketJump()
     {
-        dummy = Instantiate(rocketJumpDummy, dummyPos.position, Quaternion.identity);
+        GetComponent<Rigidbody>().isKinematic = false;
         rocketJumping = true;
-    }
+        gravity = -269.81f;
+}
     public void StopJumping()
     {
         rocketJumping = false;
+        GetComponent<Rigidbody>().isKinematic = true;
         GetComponent<CharacterController>().enabled = true;
         moveSpeed = 10f;
+        gravity = -29.81f;
 
     }
     IEnumerator FallingCheck()
@@ -90,9 +91,19 @@ public class PlayerMovement : MonoBehaviour
         {
             moveSpeed = 0f;
             GetComponent<CharacterController>().enabled = false;
-            transform.position = dummy.transform.position;
-            
+           // transform.position = dummy.transform.position;
+            if (isGrounded)
+            {
+                rocketJumping = false;
+                StopJumping();
+            }
         }
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            rocketJumping = false;
+            StopJumping();
+        }
+        
         if (!isCheckingMove)
         {
             StartCoroutine(MovementCheck());
