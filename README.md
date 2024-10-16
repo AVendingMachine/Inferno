@@ -1,2 +1,2 @@
 # Inferno
-the greatest video game of all time.
+- Little concept game I made for a class.
